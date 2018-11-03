@@ -2,6 +2,8 @@ package com.in28minutes.microservices;
 
 import static java.lang.Integer.parseInt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ public class CurrencyExchangeController {
 	
 	@Autowired
 	private ExchangeValueRepository repository;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
@@ -23,6 +27,7 @@ public class CurrencyExchangeController {
 
 		exchangeValue.setPort(parseInt(environment.getProperty("local.server.port")));
 
+		logger.info("{}", exchangeValue);
 		return exchangeValue;
 	}
 
